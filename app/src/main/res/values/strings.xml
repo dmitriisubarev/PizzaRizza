@@ -47,8 +47,8 @@
     <string name="Tab5">НАПИТКИ</string>
     <string name="Tab6">ДРУГИЕ ТОВАРЫ</string>
 
-    <string name="bigText"> </string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="signin">Авторизоваться</string>
 </resources>

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TabHost;
 
+import com.google.firebase.FirebaseApp;
+
 public class MainActivity extends ActivityGroup {
 
     @Override
