@@ -33,12 +33,12 @@
 
     <string name="box">ВЫБРАТЬ</string>
     <string name="descriptionImage">Фото</string>
-    <string name="titleItem">Пепперони с любовью</string>
+    <string name="titleItem">Название товара</string>
     <string name="textItem">
-        Оригинальная пицца в форме сердца: томатный соус, моцарелла, пикантная пепперони
+        Описание товара
     </string>
     <string name="prePriceItem">от</string>
-    <string name="priceItem">535</string>
+    <string name="priceItem">цена</string>
     <string name="valPriceItem">р</string>
     <string name="Tab1">ПИЦЦА</string>
     <string name="Tab2">КОМБО</string>
@@ -51,4 +51,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="signin">Авторизоваться</string>
+    <string name="exit">Выйти</string>
+    <string name="valuta">р</string>
+    <string name="size">Размер товара</string>
 </resources>

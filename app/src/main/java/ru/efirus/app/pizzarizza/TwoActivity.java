@@ -1,6 +1,7 @@
 package ru.efirus.app.pizzarizza;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,6 +23,7 @@ public class TwoActivity extends AppCompatActivity implements View.OnClickListen
 
     private static final int RC_SIGN_IN = 123;
     Button btnSignin;
+    Button btnExit;
     TextView resultText;
 
     @Override
@@ -28,31 +32,55 @@ public class TwoActivity extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.activity_two);
         btnSignin = (Button) findViewById(R.id.button2);
         btnSignin.setOnClickListener(this);
+        btnExit = (Button) findViewById(R.id.button3);
+        btnExit.setOnClickListener(this);
         resultText = (TextView) findViewById(R.id.textView4);
+
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             // already signed in
             resultText.setText("Sign in OK");
             btnSignin.setEnabled(false);
+            btnExit.setEnabled(true);
         } else {
             // not signed in
             resultText.setText("Sign in false");
             btnSignin.setEnabled(true);
+            btnExit.setEnabled(false);
         }
     }
 
     public void onClick(View v){
-
-        // Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
-        // Create and launch sign-in intent
-        startActivityForResult(
+        switch (v.getId()){
+            case R.id.button2:
+                // Choose authentication providers
+                List<AuthUI.IdpConfig> providers = Arrays.asList(
+                        new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build());
+                // Create and launch sign-in intent
+                startActivityForResult(
+                        AuthUI.getInstance()
+                                .createSignInIntentBuilder()
+                                .setAvailableProviders(providers)
+                                .build(),
+                        RC_SIGN_IN);
+                break;
+            case R.id.button3:
                 AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setAvailableProviders(providers)
-                        .build(),
-                RC_SIGN_IN);
+                        .signOut(this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                // ...
+                                resultText.setText("HELLO");
+                                btnSignin.setEnabled(true);
+                                btnExit.setEnabled(false);
+                            }
+                        });
+
+                break;
+            default:
+                break;
+        }
+
 
     }
 
@@ -67,6 +95,7 @@ public class TwoActivity extends AppCompatActivity implements View.OnClickListen
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 resultText.setText("Sign in OK");
                 btnSignin.setEnabled(false);
+                btnExit.setEnabled(true);
                 // ...
             } else {
                 // Sign in failed, check response for error code
