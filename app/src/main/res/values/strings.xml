@@ -4,7 +4,7 @@
     <string name="tab2">Профиль</string>
     <string name="tab3">Контакты</string>
     <string name="tab4">Корзина</string>
-    <string name="title_activity_one">OneActivity</string>
+    <string name="title_activity_one">pizzARizza</string>
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_two">Sign in</string>
@@ -23,12 +23,12 @@
     </string>
 
     <!-- oldPizzaRizzaStrings -->
-    <string name="textPage0">textPage0</string>
-    <string name="textPage1">textPage1</string>
-    <string name="textPage2">textPage2</string>
-    <string name="textPage3">textPage3</string>
-    <string name="textPage4">textPage4</string>
-    <string name="textPage5">textPage5</string>
+    <string name="tabPizza">ПИЦЦА</string>
+    <string name="tabCombo">КОМБО</string>
+    <string name="tabZakuski">ЗАКУСКИ</string>
+    <string name="tabDeserti">ДЕСЕРТЫ</string>
+    <string name="tabNapitki">НАПИТКИ</string>
+    <string name="tabDrTovari">ДРУГИЕ ТОВАРЫ</string>
     <string name="action_toBuy">КОРЗИНА</string>
 
     <string name="box">ВЫБРАТЬ</string>

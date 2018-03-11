@@ -20,12 +20,12 @@ public class OneActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 1 Item"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 2 Item"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 3 Item"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 4 Item"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 5 Item"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 6 Item"));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tabPizza));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tabCombo));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tabZakuski));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tabDeserti));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tabNapitki));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tabDrTovari));
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());

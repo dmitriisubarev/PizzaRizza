@@ -1,13 +1,8 @@
-<!--<android.support.v7.widget.RecyclerView android:id="@+id/rvFragment"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android" />-->
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context="ru.efirus.app.pizzarizza.fragments.OneFragment">
+tools:context="ru.efirus.app.pizzarizza.OneFragment">
 
 <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.RecyclerView android:id="@+id/rvFragment"
