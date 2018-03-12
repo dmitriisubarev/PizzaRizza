@@ -31,14 +31,14 @@ public class MainActivity extends ActivityGroup {
         tabSpec.setContent(new Intent(this, TwoActivity.class));
         tabHost.addTab(tabSpec);
 
-        /*tabSpec = tabHost.newTabSpec("tag3");
+        tabSpec = tabHost.newTabSpec("tag3");
         tabSpec.setIndicator(getString(R.string.tab3));
-        tabSpec.setContent(new Intent(this, OneActivity.class));
+        tabSpec.setContent(new Intent(this, ThreeActivity.class));
         tabHost.addTab(tabSpec);
 
         tabSpec = tabHost.newTabSpec("tag4");
         tabSpec.setIndicator(getString(R.string.tab4));
-        tabSpec.setContent(new Intent(this, OneActivity.class));
-        tabHost.addTab(tabSpec);*/
+        tabSpec.setContent(new Intent(this, FourActivity.class));
+        tabHost.addTab(tabSpec);
     }
 }

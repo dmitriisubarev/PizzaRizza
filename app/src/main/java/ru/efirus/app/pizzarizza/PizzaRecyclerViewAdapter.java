@@ -3,9 +3,11 @@ package ru.efirus.app.pizzarizza;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,24 +15,24 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import static java.security.AccessController.doPrivilegedWithCombiner;
-import static java.security.AccessController.getContext;
 
 /**
  * Created by efirus on 08.03.18.
  */
 
 public class PizzaRecyclerViewAdapter extends RecyclerView.Adapter<PizzaRecyclerViewAdapter.ViewHolder> {
-
+    final private static String TAG="myLog";
     private Context mContext;
     private List<Pizza> pizzas;
     private LayoutInflater mInflater;
+    private PizzaAdapterListener mPizzaClickListener;
 
     // data is passed into the constructor
-    PizzaRecyclerViewAdapter(Context context, List<Pizza> data) {
+    PizzaRecyclerViewAdapter(Context context, List<Pizza> data, PizzaAdapterListener listener) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
         this.pizzas = data;
+        this.mPizzaClickListener = listener;
     }
 
     // inflates the row layout from xml when needed
@@ -43,6 +45,7 @@ public class PizzaRecyclerViewAdapter extends RecyclerView.Adapter<PizzaRecycler
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        final int pos = position;
         String s= (Integer.toString(pizzas.get(position).getPrice())+" RUB");
         holder.pizzaName.setText(pizzas.get(position).getName());
         holder.pizzaDescription.setText(pizzas.get(position).getDescription());
@@ -51,6 +54,29 @@ public class PizzaRecyclerViewAdapter extends RecyclerView.Adapter<PizzaRecycler
         Picasso.with(mContext)//передаем контекст приложения
                 .load( pizzas.get(position).getImage()) //адрес изображения
                 .into(holder.image); //ссылка на ImageView
+
+       /* // обрабатываем нажатие кнопки на элементе recyclerview
+        holder.button.setOnClickListener (new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // action on click
+                Log.d(TAG, "press button");
+                AppDatabase db = App.getInstance().getDatabase();
+                List<Basket> mListBasket = db.basketDao().getAll();
+
+                Basket basket = new Basket();
+                if (mListBasket.size() > 0){
+                    basket.setBasketid(mListBasket.get(mListBasket.size()-1).getBasketid() + 1);
+                }
+                else
+                    basket.setBasketid(0);
+                basket.setProductName(pizzas.get(pos).getName());
+                basket.setProductPrice(pizzas.get(pos).getPrice());
+                basket.setProductQuent(1);
+                db.basketDao().insert(basket);
+
+            }
+        });*/
     }
 
     // total number of rows
@@ -67,6 +93,7 @@ public class PizzaRecyclerViewAdapter extends RecyclerView.Adapter<PizzaRecycler
         TextView pizzaPrice;
         TextView pizzaSize;
         ImageView image;
+        Button button;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -76,6 +103,13 @@ public class PizzaRecyclerViewAdapter extends RecyclerView.Adapter<PizzaRecycler
             pizzaPrice = (TextView)itemView.findViewById(R.id.pricePizza);
             pizzaSize = (TextView)itemView.findViewById(R.id.sizePizza);
             image = (ImageView)itemView.findViewById(R.id.imagePizza);
+            button = (Button)itemView.findViewById(R.id.toBuyPizza);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPizzaClickListener.ButtonViewOnClick(v, getAdapterPosition());
+                }
+            });
         }
 
     }
@@ -85,6 +119,9 @@ public class PizzaRecyclerViewAdapter extends RecyclerView.Adapter<PizzaRecycler
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    public interface PizzaAdapterListener {
+        void ButtonViewOnClick(View v, int position);
+    }
 
 
 }

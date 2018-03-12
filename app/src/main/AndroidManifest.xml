@@ -14,7 +14,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.NoActionBar"
+        android:name=".App">
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +28,13 @@
             android:name=".OneActivity"
             android:label="@string/title_activity_one"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TwoActivity"></activity>
+        <activity android:name=".TwoActivity" />
+        <activity android:name=".ThreeActivity" />
+        <activity
+            android:name=".FourActivity"
+            android:label="@string/title_activity_four"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
+
 
 </manifest>

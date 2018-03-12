@@ -54,4 +54,6 @@
     <string name="exit">Выйти</string>
     <string name="valuta">р</string>
     <string name="size">Размер товара</string>
+    <string name="title_activity_four">FourActivity</string>
+    <string name="boxDelete">УДАЛИТЬ</string>
 </resources>

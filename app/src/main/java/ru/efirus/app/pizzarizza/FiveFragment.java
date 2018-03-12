@@ -57,7 +57,26 @@ public class FiveFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_one, container, false);
         mRecyclerView = v.findViewById(R.id.rvFragment);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mPizzaRecyclerViewAdapter = new PizzaRecyclerViewAdapter(context, pizzas);
+        mPizzaRecyclerViewAdapter = new PizzaRecyclerViewAdapter(context, pizzas, new PizzaRecyclerViewAdapter.PizzaAdapterListener() {
+            @Override
+            public void ButtonViewOnClick(View v, int position) {
+                // action on click
+                Log.d(TAG, "press button");
+                AppDatabase db = App.getInstance().getDatabase();
+                List<Basket> mListBasket = db.basketDao().getAll();
+
+                Basket basket = new Basket();
+                if (mListBasket.size() > 0){
+                    basket.setBasketid(mListBasket.get(mListBasket.size()-1).getBasketid() + 1);
+                }
+                else
+                    basket.setBasketid(0);
+                basket.setProductName(pizzas.get(position).getName());
+                basket.setProductPrice(pizzas.get(position).getPrice());
+                basket.setProductQuent(1);
+                db.basketDao().insert(basket);
+            }
+        });
         mRecyclerView.setAdapter(mPizzaRecyclerViewAdapter);
 
         //3 Инициализация бд firebase
