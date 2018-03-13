@@ -56,4 +56,7 @@
     <string name="size">Размер товара</string>
     <string name="title_activity_four">FourActivity</string>
     <string name="boxDelete">УДАЛИТЬ</string>
+    <string name="zakaz">Оформить заказ</string>
+    <string name="buy">к оплате:</string>
+    <string name="quantity">шт</string>
 </resources>

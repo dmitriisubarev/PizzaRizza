@@ -55,28 +55,6 @@ public class PizzaRecyclerViewAdapter extends RecyclerView.Adapter<PizzaRecycler
                 .load( pizzas.get(position).getImage()) //адрес изображения
                 .into(holder.image); //ссылка на ImageView
 
-       /* // обрабатываем нажатие кнопки на элементе recyclerview
-        holder.button.setOnClickListener (new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // action on click
-                Log.d(TAG, "press button");
-                AppDatabase db = App.getInstance().getDatabase();
-                List<Basket> mListBasket = db.basketDao().getAll();
-
-                Basket basket = new Basket();
-                if (mListBasket.size() > 0){
-                    basket.setBasketid(mListBasket.get(mListBasket.size()-1).getBasketid() + 1);
-                }
-                else
-                    basket.setBasketid(0);
-                basket.setProductName(pizzas.get(pos).getName());
-                basket.setProductPrice(pizzas.get(pos).getPrice());
-                basket.setProductQuent(1);
-                db.basketDao().insert(basket);
-
-            }
-        });*/
     }
 
     // total number of rows

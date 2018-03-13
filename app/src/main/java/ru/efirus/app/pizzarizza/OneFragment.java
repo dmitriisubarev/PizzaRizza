@@ -58,7 +58,7 @@ public class OneFragment extends Fragment {
             @Override
             public void ButtonViewOnClick(View v, int position) {
                 // action on click
-                Log.d(TAG, "press button");
+                //Log.d(TAG, "press button");
                 AppDatabase db = App.getInstance().getDatabase();
                 List<Basket> mListBasket = db.basketDao().getAll();
 

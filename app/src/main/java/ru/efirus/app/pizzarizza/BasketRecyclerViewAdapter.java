@@ -44,11 +44,9 @@ public class BasketRecyclerViewAdapter extends RecyclerView.Adapter<BasketRecycl
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(final BasketRecyclerViewAdapter.ViewHolder holder, int position) {
-        final int pos = position;
-        String s= (Integer.toString(baskets.get(position).getProductPrice())+" RUB");
-        holder.basketPrice.setText(s);
-        s= (Integer.toString(baskets.get(position).getBasketid()));
-        holder.basketId.setText(s);
+        int allprice = baskets.get(position).getProductPrice()*baskets.get(position).getProductQuent();
+        holder.basketPrice.setText(String.valueOf(allprice+" RUB"));
+        holder.basketQuantity.setText(String.valueOf(baskets.get(position).getProductQuent()));
         holder.basketName.setText(baskets.get(position).getProductName());
 
     }
@@ -64,17 +62,31 @@ public class BasketRecyclerViewAdapter extends RecyclerView.Adapter<BasketRecycl
         CardView cv;
         TextView basketName;
         TextView basketPrice;
-        TextView basketId;
-        Button button;
+        TextView basketQuantity;
+        Button button, buttonMinus, buttonPlus;
 
         ViewHolder(final View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.BasketCardView);
             basketName = (TextView)itemView.findViewById(R.id.basketName);
             basketPrice = (TextView)itemView.findViewById(R.id.basketPrice);
-            basketId =(TextView) itemView.findViewById(R.id.basketIdView);
+            basketQuantity =(TextView) itemView.findViewById(R.id.textQuantity);
             button =(Button) itemView.findViewById(R.id.buttonDel);
             button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mBasketClickListener.ButtonViewOnClick(v, getAdapterPosition());
+                }
+            });
+            buttonMinus =(Button) itemView.findViewById(R.id.buttonMinus);
+            buttonMinus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mBasketClickListener.ButtonViewOnClick(v, getAdapterPosition());
+                }
+            });
+            buttonPlus =(Button) itemView.findViewById(R.id.buttonPlus);
+            buttonPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mBasketClickListener.ButtonViewOnClick(v, getAdapterPosition());

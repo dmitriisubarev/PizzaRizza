@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,8 @@ public class FourActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private List<Basket> baskets;
     private AppDatabase db;
+    private TextView priceText;
+    private Basket basket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,8 @@ public class FourActivity extends AppCompatActivity {
         setContentView(R.layout.activity_four);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        priceText = findViewById(R.id.priceBasketView);
 
         baskets = new ArrayList<>();
         db = App.getInstance().getDatabase();
@@ -47,20 +52,61 @@ public class FourActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (db==null) db = App.getInstance().getDatabase();
-        Log.d(TAG,"baskets size start = "+baskets.size());
         baskets = db.basketDao().getAll();
         mBasketRecyclerViewAdapter = new BasketRecyclerViewAdapter(this, baskets, new BasketRecyclerViewAdapter.BasketAdapterListener() {
             @Override
             public void ButtonViewOnClick(View v, int position) {
-                Basket basket = baskets.get(position);
-                baskets.remove(position);
-                db.basketDao().delete(basket);
-                mBasketRecyclerViewAdapter.notifyDataSetChanged();
+                switch (v.getId()){
+                    case R.id.buttonMinus:
+                        basket = baskets.get(position);
+                        int qm = basket.getProductQuent();
+                        if (qm>1) qm--;
+                        basket.setProductQuent(qm);
+                        db.basketDao().update(basket);
+                        baskets.remove(position);
+                        baskets.add(basket);
+                        calcPrice();
+                        mBasketRecyclerViewAdapter.notifyDataSetChanged();
+                        break;
+                    case R.id.buttonPlus:
+                        basket = baskets.get(position);
+                        int qp = basket.getProductQuent();
+                        qp++;
+                        basket.setProductQuent(qp);
+                        db.basketDao().update(basket);
+                        baskets.remove(position);
+                        baskets.add(basket);
+                        calcPrice();
+                        mBasketRecyclerViewAdapter.notifyDataSetChanged();
+                        break;
+                    case R.id.buttonDel:
+                        basket = baskets.get(position);
+                        baskets.remove(position);
+                        db.basketDao().delete(basket);
+                        calcPrice();
+                        mBasketRecyclerViewAdapter.notifyDataSetChanged();
+                        break;
+                    default:
+                }
+
             }
         });
-
         mRecyclerView.setAdapter(mBasketRecyclerViewAdapter);
-        Log.d(TAG,"baskets size = "+baskets.size());
+        calcPrice();
+
+    }
+
+    private void calcPrice(){
+        int price = 0;
+        if (baskets.size()>0){
+            Basket basket;
+            for (int i=0; i<baskets.size(); i++){
+                basket = baskets.get(i);
+                price += (basket.getProductPrice()*basket.getProductQuent());
+            }
+        }
+        priceText.setText(String.valueOf(price+" RUB"));
+
     }
 
 
