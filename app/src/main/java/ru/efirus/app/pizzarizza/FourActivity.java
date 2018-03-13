@@ -40,6 +40,15 @@ public class FourActivity extends AppCompatActivity {
         // настройка RecyclerView
         mRecyclerView = this.findViewById(R.id.rvBasket);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (db==null) db = App.getInstance().getDatabase();
+        Log.d(TAG,"baskets size start = "+baskets.size());
+        baskets = db.basketDao().getAll();
         mBasketRecyclerViewAdapter = new BasketRecyclerViewAdapter(this, baskets, new BasketRecyclerViewAdapter.BasketAdapterListener() {
             @Override
             public void ButtonViewOnClick(View v, int position) {
@@ -51,15 +60,8 @@ public class FourActivity extends AppCompatActivity {
         });
 
         mRecyclerView.setAdapter(mBasketRecyclerViewAdapter);
-
+        Log.d(TAG,"baskets size = "+baskets.size());
     }
 
-    @Override
-    protected void onResume() {
-        /*if (mBasketRecyclerViewAdapter!=null) {
-            baskets = db.basketDao().getAll();
-            mBasketRecyclerViewAdapter.notifyDataSetChanged();
-        }*/
-        super.onResume();
-    }
+
 }
