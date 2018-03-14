@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -24,7 +25,6 @@ public class TwoActivity extends AppCompatActivity implements View.OnClickListen
     private static final int RC_SIGN_IN = 123;
     Button btnSignin;
     Button btnExit;
-    TextView resultText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +34,14 @@ public class TwoActivity extends AppCompatActivity implements View.OnClickListen
         btnSignin.setOnClickListener(this);
         btnExit = (Button) findViewById(R.id.button3);
         btnExit.setOnClickListener(this);
-        resultText = (TextView) findViewById(R.id.textView4);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         if (auth.getCurrentUser() != null) {
             // already signed in
-            resultText.setText("Sign in OK");
             btnSignin.setEnabled(false);
             btnExit.setEnabled(true);
         } else {
             // not signed in
-            resultText.setText("Sign in false");
             btnSignin.setEnabled(true);
             btnExit.setEnabled(false);
         }
@@ -70,7 +67,6 @@ public class TwoActivity extends AppCompatActivity implements View.OnClickListen
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             public void onComplete(@NonNull Task<Void> task) {
                                 // ...
-                                resultText.setText("HELLO");
                                 btnSignin.setEnabled(true);
                                 btnExit.setEnabled(false);
                             }
@@ -93,14 +89,14 @@ public class TwoActivity extends AppCompatActivity implements View.OnClickListen
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                resultText.setText("Sign in OK");
                 btnSignin.setEnabled(false);
                 btnExit.setEnabled(true);
+                Toast.makeText(this, "Успешная авторизация))", Toast.LENGTH_SHORT).show();
                 // ...
             } else {
                 // Sign in failed, check response for error code
-                resultText.setText("Sign in false");
                 // ...
+                Toast.makeText(this, "ОШИБКА авторицации", Toast.LENGTH_SHORT).show();
             }
         }
     }

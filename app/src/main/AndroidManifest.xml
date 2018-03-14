@@ -28,8 +28,10 @@
             android:name=".OneActivity"
             android:label="@string/title_activity_one"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TwoActivity" />
-        <activity android:name=".ThreeActivity" />
+        <activity android:name=".TwoActivity"
+            android:label="@string/title_activity_two"/>
+        <activity android:name=".ThreeActivity"
+            android:label="@string/title_activity_three"/>
         <activity
             android:name=".FourActivity"
             android:label="@string/title_activity_four"

@@ -19,10 +19,12 @@ public interface BasketDao {
     @Query("SELECT * FROM basket WHERE basketid IN (:basketIds)")
     List<Basket> loadAllByIds(int[] basketIds);
 
-    @Query("SELECT * FROM basket WHERE product_name LIKE :product AND "
+    @Query("SELECT * FROM basket WHERE product_name LIKE :product LIMIT 1")
+    Basket findByName(String product);
+    /*@Query("SELECT * FROM basket WHERE product_name LIKE :product AND "
             + "product_price LIKE :price AND "
             + "product_quent LIKE :quent LIMIT 1")
-    Basket findByName(String product, int price, int quent);
+    Basket findByName(String product, int price, int quent);*/
 
     @Insert
     void insert(Basket basket);
@@ -32,5 +34,10 @@ public interface BasketDao {
 
     @Delete
     void delete(Basket basket);
+
+    @Delete
+    void deleteAll(List<Basket> baskets);
+
+
 
 }

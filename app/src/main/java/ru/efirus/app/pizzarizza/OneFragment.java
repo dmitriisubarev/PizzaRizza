@@ -58,10 +58,27 @@ public class OneFragment extends Fragment {
             @Override
             public void ButtonViewOnClick(View v, int position) {
                 // action on click
-                //Log.d(TAG, "press button");
                 AppDatabase db = App.getInstance().getDatabase();
-                List<Basket> mListBasket = db.basketDao().getAll();
+                Basket basket = db.basketDao().findByName(pizzas.get(position).getName());
+                if (basket==null){//в корзине нет товара с таким именем
+                    List<Basket> mListBasket = db.basketDao().getAll();
+                    basket = new Basket();
+                    if (mListBasket.size() > 0){
+                        basket.setBasketid(mListBasket.get(mListBasket.size()-1).getBasketid() + 1);
+                    }
+                    else
+                        basket.setBasketid(0);
+                    basket.setProductName(pizzas.get(position).getName());
+                    basket.setProductPrice(pizzas.get(position).getPrice());
+                    basket.setProductQuent(1);
+                    db.basketDao().insert(basket);
+                }
+                else {//в корзине есть товар с таким именем
+                    basket.setProductQuent(basket.getProductQuent()+1);
+                    db.basketDao().update(basket);
+                }
 
+                /*List<Basket> mListBasket = db.basketDao().getAll();
                 Basket basket = new Basket();
                 if (mListBasket.size() > 0){
                     basket.setBasketid(mListBasket.get(mListBasket.size()-1).getBasketid() + 1);
@@ -71,7 +88,7 @@ public class OneFragment extends Fragment {
                 basket.setProductName(pizzas.get(position).getName());
                 basket.setProductPrice(pizzas.get(position).getPrice());
                 basket.setProductQuent(1);
-                db.basketDao().insert(basket);
+                db.basketDao().insert(basket);*/
             }
         });
 

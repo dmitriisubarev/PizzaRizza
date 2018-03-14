@@ -14,8 +14,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class FourActivity extends AppCompatActivity {
@@ -28,6 +35,13 @@ public class FourActivity extends AppCompatActivity {
     private AppDatabase db;
     private TextView priceText;
     private Basket basket;
+    private Button buttonBuy;
+
+    // Firebase
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseReference;
+    private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +50,6 @@ public class FourActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        priceText = findViewById(R.id.priceBasketView);
-
         baskets = new ArrayList<>();
         db = App.getInstance().getDatabase();
         baskets = db.basketDao().getAll();
@@ -45,6 +57,39 @@ public class FourActivity extends AppCompatActivity {
         // настройка RecyclerView
         mRecyclerView = this.findViewById(R.id.rvBasket);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        priceText = findViewById(R.id.priceBasketView);
+        buttonBuy = findViewById(R.id.buttonBuy);
+        buttonBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //обработчик нажатия Оформить заказ
+                baskets = db.basketDao().getAll();
+                mAuth = FirebaseAuth.getInstance();
+                if (mAuth.getCurrentUser() != null){
+                    // Инициализация бд firebase
+                    Date date = Calendar.getInstance().getTime();
+                    mFirebaseDatabase = FirebaseDatabase.getInstance();
+                    mDatabaseReference = mFirebaseDatabase.getReference()
+                            .child("Orders");
+                    if (baskets.size()>0) {
+                        mDatabaseReference.child(mAuth.getCurrentUser().getUid()).child(date.toString()).setValue(baskets);
+                        Toast.makeText(FourActivity.this, "Заказ успешно оформлен!", Toast.LENGTH_SHORT).show();
+                        db.basketDao().deleteAll(baskets);
+                        onResume();
+                        /*baskets.clear();
+                        calcPrice();
+                        mBasketRecyclerViewAdapter.notifyDataSetChanged();*/
+                    }
+                    else
+                        Toast.makeText(FourActivity.this, "Пополните корзину", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(FourActivity.this, "Необходимо авторизоваться!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
     }
 
@@ -64,7 +109,7 @@ public class FourActivity extends AppCompatActivity {
                         basket.setProductQuent(qm);
                         db.basketDao().update(basket);
                         baskets.remove(position);
-                        baskets.add(basket);
+                        baskets.add(position,basket);
                         calcPrice();
                         mBasketRecyclerViewAdapter.notifyDataSetChanged();
                         break;
@@ -75,7 +120,7 @@ public class FourActivity extends AppCompatActivity {
                         basket.setProductQuent(qp);
                         db.basketDao().update(basket);
                         baskets.remove(position);
-                        baskets.add(basket);
+                        baskets.add(position,basket);
                         calcPrice();
                         mBasketRecyclerViewAdapter.notifyDataSetChanged();
                         break;

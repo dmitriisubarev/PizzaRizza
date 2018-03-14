@@ -4,10 +4,12 @@
     <string name="tab2">Профиль</string>
     <string name="tab3">Контакты</string>
     <string name="tab4">Корзина</string>
-    <string name="title_activity_one">pizzARizza</string>
+    <string name="title_activity_one">Меню</string>
 
     <string name="action_settings">Settings</string>
-    <string name="title_activity_two">Sign in</string>
+    <string name="title_activity_two">Профиль</string>
+    <string name="title_activity_three">Наши контакты</string>
+    <string name="title_activity_four">Корзина</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -54,7 +56,6 @@
     <string name="exit">Выйти</string>
     <string name="valuta">р</string>
     <string name="size">Размер товара</string>
-    <string name="title_activity_four">FourActivity</string>
     <string name="boxDelete">УДАЛИТЬ</string>
     <string name="zakaz">Оформить заказ</string>
     <string name="buy">к оплате:</string>
